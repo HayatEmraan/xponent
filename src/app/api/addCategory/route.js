@@ -3,15 +3,17 @@ import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 export async function POST(req, res) {
-  console.log( "adlkj",await req.json())
+ console.log(await req.json())
   try {
-    const newPosts = await prisma.posts.create({
+    const categoryPosts = await prisma.categories.create({
+
        data : await req.json()
+       
       
     });
     return NextResponse.json({
       msg: "success",
-      data: newPosts, 
+      data: categoryPosts,
     });
   } catch (error) {
     console.log(error)

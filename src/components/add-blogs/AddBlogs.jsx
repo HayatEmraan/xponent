@@ -8,17 +8,16 @@ const AddBlogs = () => {
 
     const form = event.target;
     const title = form.title.value;
-    const content = form.content.value;
+    const description = form.content.value;
     const category = form.category.value;
-    const photo = form.photo.value;
+    const img = form.photo.value;
 
-    const newBlog = { title, content, category, photo };
+    const newBlog = { title, description, category, img};
 
     fetch("/api/addPost", {
       method: "POST",
       body: JSON.stringify({
-        task: newBlog,
-        isDone: false,
+       newBlog,
       }),
     })
       .then((res) => res.json())
