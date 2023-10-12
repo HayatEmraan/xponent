@@ -3,18 +3,29 @@ import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 export async function POST(req, res) {
-  console.log( "adlkj",await req.json())
   try {
-    const newPosts = await prisma.posts.create({
-       data : await req.json()
-      
+    const params = new URL(req.url).searchParams;
+    const categoryID = params.get("id");
+    const Post = await prisma.posts.create({
+      data: {
+        ...(await req.json()),
+        category: {
+          connect: {
+            id: categoryID,
+          },
+        },
+        user: {
+          connect: {
+            id: "65270435afc91ee2257bc816",
+          },
+        },
+      },
     });
     return NextResponse.json({
       msg: "success",
-      data: newPosts, 
+      data: Post,
     });
   } catch (error) {
-    console.log(error)
     return NextResponse.json({
       msg: "failed",
       error,
@@ -22,3 +33,17 @@ export async function POST(req, res) {
   }
 }
 
+export async function GET(req, res) {
+  try {
+    const posts = await prisma.posts.findMany();
+    return NextResponse.json({
+      msg: "success",
+      data: posts,
+    });
+  } catch (error) {
+    return NextResponse.json({
+      msg: "failed",
+      error,
+    });
+  }
+}

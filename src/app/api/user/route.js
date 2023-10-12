@@ -4,8 +4,8 @@ import { NextResponse } from "next/server";
 const prisma = new PrismaClient();
 export async function POST(req, res) {
   try {
-    const userInsert = await prisma.posts.create({
-      data: req.json(), // getting data from body 
+    const userInsert = await prisma.users.create({
+      data: await req.json(), // getting data from body
     });
     return NextResponse.json({
       msg: "success",
